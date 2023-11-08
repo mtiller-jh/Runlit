@@ -28,8 +28,10 @@ function parse_commandline()::Options
             default = ".jl"
         "--input", "-i"
             help = "directory to search for input files"
+            required = true
         "--output", "-o"
             help = "directory where output files should be written"
+            required = true
     end
 
     parsed = parse_args(s)
