@@ -43,7 +43,7 @@ function parse_commandline()::Options
     notebook::Bool = parsed["notebook"]
     code::Bool = parsed["code"]
 
-    Options(docs=docs, output=output, force=force, ext=ext, execute=!code, markdown=!notebook, notebook=notebook)
+    Options(docs=docs, output=output, force=force, ext=ext, execute=!code, markdown=true, notebook=notebook)
 end
 
 export parse_commandline
