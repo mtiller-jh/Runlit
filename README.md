@@ -4,13 +4,13 @@
 
 I developed this package as a general purpose tool for running
 [`Literate.jl`](https://github.com/fredrikekre/Literate.jl) on collections of
-files to generate Markdown (and, optinally, Jupyter notebooks).  This tool is
+files to generate Markdown (and, optionally, Jupyter notebooks).  This tool is
 primarily meant to be used in conjunction with static site generators.  It
 transforms Julia files into Markdown which can then be translated by any number
 of static site tools into HTML to be published.
 
 Much, if not all, of this could be done using
-[Documnter.jl](https://github.com/JuliaDocs/Documenter.jl) directly.  But in
+[Documenter.jl](https://github.com/JuliaDocs/Documenter.jl) directly.  But in
 cases where one wants to publish via other tools, this makes the generation of
 the Markdown quite easy. Example use cases include:
 - Generating a `README.md` for a `git` repository directly from Julia code.
@@ -19,7 +19,7 @@ the Markdown quite easy. Example use cases include:
 - Use with any other static site generator that accepts Markdown
 
 This package is meant to be used in conjunction with the [`jlrun`
-unility](https://github.com/mtiller-jh/jlrun). With the `jlrun` script installed
+utility](https://github.com/mtiller-jh/jlrun). With the `jlrun` script installed
 and this, `Runlit`, package installed, you trigger Markdown processing in two
 ways:
 
