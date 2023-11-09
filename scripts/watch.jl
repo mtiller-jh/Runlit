@@ -1,8 +1,14 @@
 using Runlit 
+using Pkg
 import FileWatching
 
 opts = parse_commandline()
 println(opts)
+
+if !isnothing(opts.project)
+    Pkg.activate(opts.project)
+    Pkg.instantiate()
+end
 
 # Do an initial pass
 process(opts)

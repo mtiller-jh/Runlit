@@ -8,6 +8,7 @@ Base.@kwdef struct Options
     execute::Bool
     markdown::Bool
     notebook::Bool
+    project::Union{String, Nothing}
 end
 
 function parse_commandline()::Options
@@ -32,6 +33,8 @@ function parse_commandline()::Options
         "--output", "-o"
             help = "directory where output files should be written"
             required = true
+        "--project", "-p"
+            help = "directory containing Project.toml file to use for dependencies when executing"
     end
 
     parsed = parse_args(s)
@@ -42,8 +45,9 @@ function parse_commandline()::Options
     ext::String = parsed["ext"]
     notebook::Bool = parsed["notebook"]
     code::Bool = parsed["code"]
+    project::Union{String, Nothing} = get(parsed, "project", nothing)
 
-    Options(docs=docs, output=output, force=force, ext=ext, execute=!code, markdown=true, notebook=notebook)
+    Options(docs=docs, output=output, force=force, ext=ext, execute=!code, markdown=true, notebook=notebook, project=project)
 end
 
 export parse_commandline
