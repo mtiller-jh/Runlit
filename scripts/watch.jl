@@ -1,6 +1,6 @@
 using Runlit 
 using Pkg
-import FileWatching
+import BetterFileWatching
 
 opts = parse_commandline()
 println(opts)
@@ -12,11 +12,15 @@ end
 
 # Do an initial pass
 process(opts)
+
 while true
     println("Waiting for changes in $(opts.docs)")
     # Wait for a change and then check again (and again, and again)
-    (file, event) = FileWatching.watch_folder(opts.docs)
-    if endswith(file, opts.ext)
-        process(opts)
+    BetterFileWatching.watch_folder(opts.docs) do event 
+        for file in event.paths
+            if endswith(file, opts.ext)
+                process(opts)
+            end
+        end
     end
 end
