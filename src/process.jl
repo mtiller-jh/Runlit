@@ -1,6 +1,7 @@
 using Literate
 
 function process(opts::Options)
+    Runlit.input_directory = opts.docs
     # Walk the docs directory
     for (root, _, files) in walkdir(opts.docs)
         subdir = relpath(root, opts.docs)
