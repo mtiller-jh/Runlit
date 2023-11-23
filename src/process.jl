@@ -8,16 +8,21 @@ function process(opts::Options)
         # Loop over all files found while walking
         for file in files
             try
-                if !endswith(file, opts.ext)
-                    continue
-                end
-
                 # Stat the input file
                 ifile = joinpath(root, file)
                 fs = stat(ifile)
 
                 # Get the base name of the .jl file
                 (base,) = splitext(file)
+
+                # If the file isn't a source code file, just 
+                # copy it
+                if !endswith(file, opts.ext)
+                    ofile = joinpath(opts.output, subdir, file)
+                    println("Copying non-source file $(ifile) to $(ofile)")
+                    cp(ifile, ofile, force=true)
+                    continue
+                end
 
                 if opts.markdown
                     mfile = joinpath(opts.output, subdir, "$(base).md")
