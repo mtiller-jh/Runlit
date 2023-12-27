@@ -16,7 +16,7 @@ the Markdown quite easy. Example use cases include:
 - Generating a `README.md` for a `git` repository directly from Julia code.
 - Generating Markdown to inject into a [Jekyll](https://jekyllrb.com/) site.
 - Generating Markdown for use with [`retype`](https://retype.com/)
-- Generating Markdown for use with [`slidev](https://sli.dev)
+- Generating Markdown for use with [`slidev`](https://sli.dev)
 - Use with any other static site generator that accepts Markdown
 
 This package is meant to be used in conjunction with the [`jlrun`
