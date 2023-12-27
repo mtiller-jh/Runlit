@@ -51,7 +51,7 @@ function process(opts::Options)
                 printstyled("Error "; color=:red)
                 print("processing file ")
                 printstyled(file; color=:blue)
-                println();
+                println()
                 Base.display_error(e)
             end
         end
