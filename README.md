@@ -1,5 +1,12 @@
 # Overview
 
+## Caveat
+
+This package is not yet published to the general Julia registry. So in the
+meantime if you want to use it, you'll need to clone this repo and then "dev it"
+into your local Julia project. I hope to publish it soon once I've worked out
+any remaining kinks related to the `-m` flag in Julia 1.12.
+
 ## Motivation
 
 I developed this package as a general purpose tool for running
