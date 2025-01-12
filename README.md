@@ -20,13 +20,20 @@ the Markdown quite easy. Example use cases include:
 - Generating Markdown for use with [`slidev`](https://sli.dev)
 - Use with any other static site generator that accepts Markdown
 
-**NB** These instructions assume you are using Julia v1.12 which, at this time,
+## Important Notes
+
+These instructions assume you are using Julia v1.12 which, at this time,
 has not yet been released. So until Julia v1.12 is released, you'll need to
 use `juliaup` to first include the nightly builds with `juliaup add nightly`
 and then when you run `julia`, invoke it with `julia +nightly`.
 
-Also note...`Runlit` must be installed in your projects environment (whatever
+Also note that `Runlit` must be installed in your projects environment (whatever
 that is) along with any other dependencies you might have.
+
+In addition, as with all things Julia, you need to understand that the first
+time you run something you'll trigger JIT (pre-) compilation. So if you have
+the occasional hiccup when doing something for the first time be patient. Once
+Julia has done its JIT thing, things will be super fast.
 
 ## CLI Arguments
 
@@ -69,7 +76,7 @@ to hold the HTML.
 For `retype`, you'll need to install `retype` (see
 [here](https://retype.com/guides/getting-started/) on how to do that).
 Everything discussed here can be found in the `examples/retype` directory. In
-fact, you can just go to that directory and type `julia -m Runlit -i src -o
+fact, you can just go to that directory and type `julia --project=. -m Runlit -i src -o
 markdown` to generate the Markdown for it.
 
 #### Project Initialization
@@ -180,4 +187,55 @@ for Literate.jl, just include a block like this at the top of your Julia file:
 
 ### Slidev
 
-####
+#### Initialization
+
+In the case of [Slidev](https://sli.dev/), you need to create an `npm` project
+for your work (instructions on doing this can be found
+[here](https://sli.dev/guide/)).
+
+#### Project Initialization
+
+Once you have a Slidev project (_i.e.,_ a directory with a `package.json` file
+in it), you can turn that same directory into a Julia project. In such a
+configuration, the `package.json` and `Project.toml` files will be in the same
+directory.
+
+Note that Slidev expects your slides to be contained in `slides.md` _in the root
+directory_. So a basic configuration would be to mkdir a directory called `src`
+and in that directory include a file called `slides.jl`.
+
+```
+$ julia -m Runlit -i src -o .
+```
+
+...in the directory with `Project.toml` in it and `Runlit` will generate your
+`slides.md` file for you.
+
+If you want to test this out, you can run this in the `examples/slidev`
+directory. But since it uses third party libraries, you need to run this
+command:
+
+```
+$ julia --project=. -m Runlit -i src -o .
+```
+
+#### Site Generation
+
+The site itself can be generated with `npm run build`. Using the `-e` flag, we
+can regenerate the HTML each time the Markdown is updated (_i.e.,_ when the
+Julia files are updated) with:
+
+```
+$ julia -m Runlist -i src -o . -e 'npm run build'
+```
+
+#### Previewing
+
+To preview the slides with hot reloading of the web page, don't use the `-e`
+flag above but, instead, run the following command in a different shell:
+
+```
+$ npm run dev
+```
+
+#### Front Matter

@@ -6,11 +6,11 @@ Base.@kwdef struct Options
     force::Bool
     ext::String
     execute::Bool
+    suppress::Bool
     cmd::String
     markdown::Bool
     notebook::Bool
     watch::Bool
-    project::Union{String,Nothing}
 end
 
 function parse_commandline(args::Union{Vector{String},Nothing}=nothing)::Options
@@ -43,8 +43,9 @@ function parse_commandline(args::Union{Vector{String},Nothing}=nothing)::Options
         "--watch", "-w"
         help = "watch for future changes"
         action = :store_true
-        "--project", "-p"
-        help = "directory containing Project.toml file to use for dependencies when executing"
+        "--suppress", "-s"
+        help = "suppress postprocesses of image references to be relative"
+        action = :store_true
     end
 
     if isnothing(args)
@@ -61,9 +62,9 @@ function parse_commandline(args::Union{Vector{String},Nothing}=nothing)::Options
     code::Bool = parsed["code"]
     cmd::String = parsed["execute"]
     watch::Bool = parsed["watch"]
-    project::Union{String,Nothing} = get(parsed, "project", nothing)
+    suppress::Bool = parsed["suppress"]
 
-    Options(docs=docs, output=output, force=force, cmd=cmd, ext=ext, execute=!code, markdown=true, notebook=notebook, watch=watch, project=project)
+    Options(docs=docs, output=output, force=force, cmd=cmd, ext=ext, execute=!code, suppress=suppress, markdown=true, notebook=notebook, watch=watch)
 end
 
 export parse_commandline

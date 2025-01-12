@@ -3,6 +3,17 @@ using Literate
 function process(opts::Options)
     Runlit.input_directory = opts.docs
     # Walk the docs directory
+
+    function postprocess_markdown(str)
+        println("Suppress = $(opts.suppress)")
+        if opts.suppress
+            return str
+        end
+        str = replace(str, r"^\!\[\]\(([a-zA-Z][^:]*)$"m => s"""![](./\1""")
+        return str
+    end
+
+
     for (root, _, files) in walkdir(opts.docs)
         subdir = relpath(root, opts.docs)
         # Loop over all files found while walking
@@ -32,7 +43,7 @@ function process(opts::Options)
                     # regeneration, run Literate.jl
                     if fs.mtime > ms.mtime || opts.force
                         # println("Generating markdown for $(mfile) from $(ifile) since $(fs.mtime) > $(ms.mtime)")
-                        Literate.markdown(ifile, joinpath(opts.output, subdir); flavor=Literate.CommonMarkFlavor(), execute=opts.execute)
+                        Literate.markdown(ifile, joinpath(opts.output, subdir); flavor=Literate.CommonMarkFlavor(), execute=opts.execute, postprocess=postprocess_markdown)
                     end
                 end
 
