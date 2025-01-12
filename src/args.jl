@@ -8,44 +8,48 @@ Base.@kwdef struct Options
     execute::Bool
     markdown::Bool
     notebook::Bool
-    project::Union{String, Nothing}
+    project::Union{String,Nothing}
 end
 
-function parse_commandline()::Options
+function parse_commandline(args::Union{Vector{String},Nothing}=nothing)::Options
     s = ArgParseSettings()
 
     @add_arg_table s begin
         "--force", "-f"
-            help = "force updating of all input files"
-            action = :store_true
+        help = "force updating of all input files"
+        action = :store_true
         "--code", "-c"
-            help = "show code only, do not execute"
-            action = :store_true
+        help = "show code only, do not execute"
+        action = :store_true
         "--notebook"
-            help = "genereate notebook files as well"
-            action = :store_true
+        help = "genereate notebook files as well"
+        action = :store_true
         "--ext", "-e"
-            help = "file extension associated with input files"
-            default = ".jl"
+        help = "file extension associated with input files"
+        default = ".jl"
         "--input", "-i"
-            help = "directory to search for input files"
-            required = true
+        help = "directory to search for input files"
+        required = true
         "--output", "-o"
-            help = "directory where output files should be written"
-            required = true
+        help = "directory where output files should be written"
+        required = true
         "--project", "-p"
-            help = "directory containing Project.toml file to use for dependencies when executing"
+        help = "directory containing Project.toml file to use for dependencies when executing"
     end
 
-    parsed = parse_args(s)
+    if isnothing(args)
+        parsed = parse_args(s)
+    else
+        parsed = parse_args(args, s)
+    end
 
-    docs = joinpath(pwd(),parsed["input"])
-    output = joinpath(pwd(),parsed["output"])
+    docs = joinpath(pwd(), parsed["input"])
+    output = joinpath(pwd(), parsed["output"])
     force::Bool = parsed["force"]
     ext::String = parsed["ext"]
     notebook::Bool = parsed["notebook"]
     code::Bool = parsed["code"]
-    project::Union{String, Nothing} = get(parsed, "project", nothing)
+    project::Union{String,Nothing} = get(parsed, "project", nothing)
 
     Options(docs=docs, output=output, force=force, ext=ext, execute=!code, markdown=true, notebook=notebook, project=project)
 end
