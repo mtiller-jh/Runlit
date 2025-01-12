@@ -6,8 +6,10 @@ Base.@kwdef struct Options
     force::Bool
     ext::String
     execute::Bool
+    cmd::String
     markdown::Bool
     notebook::Bool
+    watch::Bool
     project::Union{String,Nothing}
 end
 
@@ -21,11 +23,16 @@ function parse_commandline(args::Union{Vector{String},Nothing}=nothing)::Options
         "--code", "-c"
         help = "show code only, do not execute"
         action = :store_true
+        "--execute", "-e"
+        help = "shell command to run after generating markdown"
+        arg_type = String
+        default = ""
         "--notebook"
         help = "genereate notebook files as well"
         action = :store_true
-        "--ext", "-e"
+        "--ext"
         help = "file extension associated with input files"
+        arg_type = String
         default = ".jl"
         "--input", "-i"
         help = "directory to search for input files"
@@ -33,6 +40,9 @@ function parse_commandline(args::Union{Vector{String},Nothing}=nothing)::Options
         "--output", "-o"
         help = "directory where output files should be written"
         required = true
+        "--watch", "-w"
+        help = "watch for future changes"
+        action = :store_true
         "--project", "-p"
         help = "directory containing Project.toml file to use for dependencies when executing"
     end
@@ -49,9 +59,11 @@ function parse_commandline(args::Union{Vector{String},Nothing}=nothing)::Options
     ext::String = parsed["ext"]
     notebook::Bool = parsed["notebook"]
     code::Bool = parsed["code"]
+    cmd::String = parsed["execute"]
+    watch::Bool = parsed["watch"]
     project::Union{String,Nothing} = get(parsed, "project", nothing)
 
-    Options(docs=docs, output=output, force=force, ext=ext, execute=!code, markdown=true, notebook=notebook, project=project)
+    Options(docs=docs, output=output, force=force, cmd=cmd, ext=ext, execute=!code, markdown=true, notebook=notebook, watch=watch, project=project)
 end
 
 export parse_commandline

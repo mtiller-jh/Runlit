@@ -56,6 +56,11 @@ function process(opts::Options)
             end
         end
     end
+    if opts.cmd != ""
+        println("Executing command: $(opts.cmd)")
+        run(Cmd(split(opts.cmd, " ")))
+    end
+    nothing
 end
 
 export process
