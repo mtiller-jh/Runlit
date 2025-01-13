@@ -5,6 +5,7 @@
   "scripts": {
     "build": "slidev build",
     "dev": "slidev --open",
+    "lit": "julia --project=. -m Runlit -i src -o .",
     "export": "slidev export"
   },
   "dependencies": {

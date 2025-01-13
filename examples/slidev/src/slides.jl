@@ -61,3 +61,7 @@ graphplot(A, #hide
     linecolor=:darkgrey #hide
 ) #hide
 
+# ---
+# src: ./deck2.md
+# ---
+

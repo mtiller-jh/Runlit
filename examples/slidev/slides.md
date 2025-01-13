@@ -53,6 +53,10 @@ multimedia Julia content, like plots:
 ![](./slides-17.svg)
 
 ---
+src: ./deck2.md
+---
+
+---
 
 *This page was generated using [Literate.jl](https://github.com/fredrikekre/Literate.jl).*
 
